@@ -85,12 +85,12 @@ int main(int argc, char *argv[])
 {
 	int ret = 0, retn;
 	int *exe_ret = &retn;
-	char *prompt = "$ "; /*new_line = "\n";*/
+	char *prompt = "$ ", *new_line = "\n";
 
 	name = argv[0];
 	hist = 1;
 	aliases = NULL;
-	/*signal(SIGINT, sig_handler);*/
+	signal(SIGINT, sig_handler);
 
 	*exe_ret = 0;
 	environ = _copyenv();
@@ -121,12 +121,7 @@ int main(int argc, char *argv[])
 		if (ret == END_OF_FILE || ret == EXIT)
 		{
 			if (ret == END_OF_FILE)
-			{
-				free_env();
-				free_alias_list(aliases);
-				exit(0);
-				/*write(STDOUT_FILENO, new_line, 1);*/
-			}
+				write(STDOUT_FILENO, new_line, 1);
 			free_env();
 			free_alias_list(aliases);
 			exit(*exe_ret);
